@@ -71,6 +71,26 @@ Difficulté : Facile (~30 minutes)
 ---------------------------------------------------
 **Complétez et documentez ce fichier README.md** pour nous expliquer comment utiliser votre solution.  
 Faites preuve de pédagogie et soyez clair dans vos expliquations et processus de travail.  
+
+🧪 Tests et Fonctionnement
+Commande de test (Pilotage API)
+Pour simuler une action via API, lancez la commande suivante pour démarrer l'instance :
+
+awslocal lambda invoke \
+   --function-name ec2-controller \
+   --payload '{"action":"start"}' \
+   --cli-binary-format raw-in-base64-out \
+   output.json
+
+   Vérification du résultat
+Le fichier output.json doit confirmer le succès :
+{"statusCode": 200, "body": "{\"message\": \"Instance i-xxxxxxxx started\"}"}
+
+Vérification visuelle du statut EC2 :
+
+awslocal ec2 describe-instances --query "Reservations[*].Instances[*].{ID:InstanceId,Status:State.Name}"
+
+   
    
 ---------------------------------------------------
 Evaluation
