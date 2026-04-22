@@ -72,25 +72,31 @@ Difficulté : Facile (~30 minutes)
 **Complétez et documentez ce fichier README.md** pour nous expliquer comment utiliser votre solution.  
 Faites preuve de pédagogie et soyez clair dans vos expliquations et processus de travail.  
 
-🧪 Tests et Fonctionnement
-Commande de test (Pilotage API)
-Pour simuler une action via API, lancez la commande suivante pour démarrer l'instance :
+Exposition via API Gateway
+L'API a été configurée pour transformer les requêtes HTTP en invocations Lambda :
 
-awslocal lambda invoke \
-   --function-name ec2-controller \
-   --payload '{"action":"start"}' \
-   --cli-binary-format raw-in-base64-out \
-   output.json
+# Activation de l'API (ID : m2z0zot7c9)
+awslocal apigateway create-deployment --rest-api-id m2z0zot7c9 --stage-name test
 
-   Vérification du résultat
-Le fichier output.json doit confirmer le succès :
-{"statusCode": 200, "body": "{\"message\": \"Instance i-xxxxxxxx started\"}"}
+🧪 Tests de Pilotage (Liens HTTP)
+L'infrastructure est pilotable via les url suivants:
 
-Vérification visuelle du statut EC2 :
+Démarrer l'instance :
+https://fluffy-spork-979xg6949prqh9v97-4566.app.github.dev/restapis/m2z0zot7c9/test/_user_request_/control?action=start
+Arrêter l'instance :
+https://fluffy-spork-979xg6949prqh9v97-4566.app.github.dev/restapis/m2z0zot7c9/test/_user_request_/control?action=stop
 
-awslocal ec2 describe-instances --query "Reservations[*].Instances[*].{ID:InstanceId,Status:State.Name}"
+Test de fonctionnement:
+Après être aller sur le lien pour démarrer l'instance:
+<img width="1437" height="313" alt="image" src="https://github.com/user-attachments/assets/1344de6f-6b5f-4504-bdc1-458da96b7965" />
+Voici le résultat sur EC2:
+<img width="1524" height="362" alt="image" src="https://github.com/user-attachments/assets/32a2e6fe-cd21-4fea-9673-bdef9d0d16ba" />
+Ensuite l'url Stop:
+<img width="933" height="212" alt="image" src="https://github.com/user-attachments/assets/a91cbde1-9fcf-48a5-acba-02c3cf64e9e0" />
+Voici le résultat sur EC2:
+<img width="1556" height="492" alt="image" src="https://github.com/user-attachments/assets/ee7dd6fd-a78f-49ea-9f33-078fe22c1b54" />
 
-   
+
    
 ---------------------------------------------------
 Evaluation
